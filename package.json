@@ -1,0 +1,22 @@
+{
+  "name": "lesson-schedule-vk-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atso-devs/lesson-schedule-vk-bot.git"
+  },
+  "author": "Nikita Gromyko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atso-devs/lesson-schedule-vk-bot/issues"
+  },
+  "homepage": "https://github.com/atso-devs/lesson-schedule-vk-bot#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
