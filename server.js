@@ -4,7 +4,7 @@ const app = require('express')()
 
 app.post("/vk-confirmation", (req, res) => {
     console.log(req)
-    res.send('110fab09')
+    res.send('035fae4c')
 })
 
 app.listen(PORT, () => {
