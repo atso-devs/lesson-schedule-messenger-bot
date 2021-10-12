@@ -1,6 +1,5 @@
 const app = require('express')()
-// TODO move PORT to .env
-    PORT = 3000
+    PORT = process.env.PORT || 8080
 ;
 
 app.post("/vk-confirmation", (req, res) => {
