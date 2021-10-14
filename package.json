@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/atso-devs/lesson-schedule-vk-bot#readme",
   "dependencies": {
+    "axios": "^0.23.0",
+    "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1"
   }
