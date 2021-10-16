@@ -7,6 +7,7 @@ module.exports = async function handle(body) {
         if (body.object.message.text === '/ping') {
             body.object.message.text = 'pong'
         } else {
+            console.log(body)
             body.object.message.text = 'Неизвестная команда'
         }
         return await messageService.testServiceMethod(body.object.message)
