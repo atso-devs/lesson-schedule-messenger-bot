@@ -10,6 +10,6 @@ module.exports = async function handle(body) {
             body.object.message.text = 'Неизвестная команда'
         }
         console.log(body)
-        return await messageService.testServiceMethod(body.object.message)
+        return await messageService.testServiceMethod(body.object.message, body.group_id)
     }
 }

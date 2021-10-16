@@ -4,9 +4,9 @@ const axios = require('axios'),
     accessToken = process.env.access_token
 
 module.exports = {
-    sendMessage: async (message) => {
+    sendMessage: async (message, groupId) => {
         const data = {
-            user_id: message.peer_id,
+            peer_id: 2000000000 + groupId,
             access_token: accessToken,
             random_id: Math.floor(Math.random() * 20000000000),
             message: message.text,
