@@ -6,7 +6,7 @@ const axios = require('axios'),
 module.exports = {
     sendMessage: async (message) => {
         const data = {
-            user_id: message.from_id,
+            user_id: message.peer_id,
             access_token: accessToken,
             random_id: Math.floor(Math.random() * 20000000000),
             message: message.text,
