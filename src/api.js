@@ -13,5 +13,29 @@ module.exports = {
             v: apiVersion,
         }
         return await axios.post(baseUrl+'messages.send', {}, { params: params })
+    },
+    getSchedule: async () => {
+        function makeDayScheduleObject(lesson) {
+            let [ id, name, begins, ends, type,
+                zoomId, zoomPassword, aud, lecturer ] =
+                lesson.replace('|', '').split('|').map(item => item.trim())
+            return { id, name, begins, ends, type, zoomId, zoomPassword, aud, lecturer }
+        }
+        const schedule = (await axios.get('https://raw.githubusercontent.com/atso-devs/.github/main/schedule.md')).data
+
+        let scheduleArr = []
+        schedule.split('##').slice(1, schedule.length).forEach((day, index) => {
+            let dayArr = day.split(/\n/)
+            let lessons = []
+            for (let i=3; i<dayArr.length-2; i++) {
+                lessons.push(makeDayScheduleObject(dayArr[i]))
+            }
+            scheduleArr.push({
+                day: index,
+                dayName: dayArr[0].trim(),
+                lessons
+            })
+        })
+        return scheduleArr
     }
 }
