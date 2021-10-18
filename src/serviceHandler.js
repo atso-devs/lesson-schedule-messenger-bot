@@ -9,7 +9,6 @@ module.exports = async function handle(body) {
     const command = body.object.message.text.split(' ')[0].trim().replace('/', ''),
         peerId = body.object.message.peer_id;
 
-    console.log(command, peerId)
     if (command in commands) {
         await commands[command].execute(peerId)
     } else {
