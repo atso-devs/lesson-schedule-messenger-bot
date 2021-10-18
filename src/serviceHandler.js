@@ -1,15 +1,22 @@
-const messageService = require('./messageService')
+const commands = require('./commands/commands');
+const api = require("./api");
 
 module.exports = async function handle(body) {
     if (body.type === 'confirmation') {
         return process.env.vk_confirmation_string
-    } else {
-        if (body.object.message.text === '/ping') {
-            body.object.message.text = 'pong'
-        } else {
-            body.object.message.text = 'Неизвестная команда'
-        }
-        console.log(body)
-        return await messageService.testServiceMethod(body.object.message, body.group_id)
     }
+
+    const command = body.object.message.text.split(' ')[0].trim().replace('/', ''),
+        peerId = body.object.message.peer_id;
+
+    console.log(command, peerId)
+    if (command in commands) {
+        await commands[command].execute(peerId)
+    } else {
+        await api.sendMessage(
+            'Неизвестная команда. Воспользуйтесь /help для просмотра всех доступных команд',
+            peerId
+        )
+    }
+
 }

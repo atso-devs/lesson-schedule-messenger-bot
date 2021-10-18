@@ -1,7 +1,7 @@
 const api = require('./api')
 
 module.exports = {
-    testServiceMethod: async (message, groupId) => {
+    sendMessage: async (message, groupId) => {
         return await api.sendMessage(message, groupId)
     }
 }

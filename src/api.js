@@ -4,14 +4,14 @@ const axios = require('axios'),
     accessToken = process.env.access_token
 
 module.exports = {
-    sendMessage: async (message, groupId) => {
-        const data = {
-            peer_id: message.peer_id,
+    sendMessage: async (message, peerId) => {
+        const params = {
+            peer_id: peerId,
             access_token: accessToken,
             random_id: Math.floor(Math.random() * 20000000000),
-            message: message.text,
+            message: message,
             v: apiVersion,
         }
-        return await axios.post(baseUrl+'messages.send', {}, { params: data })
+        return await axios.post(baseUrl+'messages.send', {}, { params: params })
     }
 }
