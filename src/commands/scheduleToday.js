@@ -8,7 +8,7 @@ module.exports = {
     name: 'st',
     description: 'Выводит расписание на сегодня',
     execute: async (peerId) => {
-        const schedule = (await api.getSchedule())[new Date().getDay()-1],
+        const schedule = (await api.getSchedule())[new Date(new Date().setHours(new Date().getHours() + 3)).getDay()-1],
              lessonList = schedule.lessons.map(lesson => { return createLessonString(lesson) })
 
         const scheduleMessage = `${schedule.dayName}\n
