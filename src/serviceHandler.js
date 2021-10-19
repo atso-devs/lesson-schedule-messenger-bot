@@ -7,10 +7,11 @@ module.exports = async function handle(body) {
     }
 
     const command = body.object.message.text.split(' ')[0].trim().replace('/', ''),
-        peerId = body.object.message.peer_id;
+        peerId = body.object.message.peer_id,
+        date = body.object.message.date;
 
     if (command in commands) {
-        await commands[command].execute(peerId)
+        await commands[command].execute(peerId, date)
     } else {
         await api.sendMessage(
             'Неизвестная команда. Воспользуйтесь /help для просмотра всех доступных команд',

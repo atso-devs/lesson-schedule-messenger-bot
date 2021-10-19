@@ -7,9 +7,9 @@ function createLessonString(lesson) {
 module.exports = {
     name: 'st',
     description: 'Выводит расписание на сегодня',
-    execute: async (peerId) => {
-        const serverDate = new Date(Date.now() + 60*60*3*1000)
-        const schedule = (await api.getSchedule())[serverDate.getDay()],
+    execute: async (peerId, date) => {
+        const weekDay = new Date(date*1000).getDay()
+        const schedule = (await api.getSchedule())[weekDay>4 ? 0 : weekDay],
              lessonList = schedule.lessons.map(lesson => { return createLessonString(lesson) })
 
         const scheduleMessage = `${schedule.dayName}\n
