@@ -10,7 +10,7 @@ function createLessonString(lesson) {
 }
 
 module.exports = {
-    name: 'st',
+    name: 'lessons',
     description: 'Выводит расписание на сегодня',
     execute: async (peerId, date) => {
         const weekDay = new Date(date*1000).getDay()-1
