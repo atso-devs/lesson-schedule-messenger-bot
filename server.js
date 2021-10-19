@@ -9,7 +9,10 @@ const app = require('express')(),
 app.use(bodyParser.json())
 
 app.post('/', catchError(async (req, res, next) => {
-    if (!(req.body.object.message.text.startsWith('/') && req.body.object.message)) {
+    if (!req.body.object.message) {
+        return
+    }
+    if (!req.body.object.message.text.startsWith('/')) {
         return
     }
     const result = await serviceHandler(req.body)
