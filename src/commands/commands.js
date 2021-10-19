@@ -1,9 +1,9 @@
 const help = require('./help'),
     ping = require("./ping"),
-    st = require('./scheduleToday');
+    lessons = require('./scheduleToday');
 
 module.exports = {
     help,
     ping,
-    st,
+    lessons,
 }
