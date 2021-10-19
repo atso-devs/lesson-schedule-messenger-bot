@@ -1,7 +1,12 @@
 const api = require('../api')
 
 function createLessonString(lesson) {
-    return `${lesson.begins}-${lesson.ends} - ${lesson.name}. Аудитория: ${lesson.aud}. ${lesson.lecturer}\n`
+    const common = `${lesson.begins}-${lesson.ends} - ${lesson.name}.`
+    if (lesson.type === 'zoom') {
+        return `${common} ID-конференции: ${lesson.zoomId}. Пароль: ${lesson.zoomPassword}. ${lesson.lecturer}\n`
+    }
+    return `${common} Аудитория: ${lesson.aud}. ${lesson.lecturer}\n`
+
 }
 
 module.exports = {
