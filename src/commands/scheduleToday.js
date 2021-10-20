@@ -1,5 +1,5 @@
 const api = require('../api'),
-    timeZone = 6*60*60*1000
+    timeZone = process.env.time_zone*60*60*1000
 
 function createLessonString(lesson) {
     const common = `${lesson.begins}-${lesson.ends} - ${lesson.name}.`
@@ -21,7 +21,6 @@ module.exports = {
         const scheduleMessage = `${schedule.dayName}\n
             ${lessonList.join('\n')} 
         `
-        console.log(scheduleMessage)
 
         await api.sendMessage(scheduleMessage, peerId)
     }
