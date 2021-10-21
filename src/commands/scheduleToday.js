@@ -20,7 +20,7 @@ module.exports = {
         }
 
         if (args.length === 0) {
-            const weekDay = new Date(date*1000+timeZone).getDay()
+            const weekDay = new Date(date*1000+timeZone).getDay()-1
             const schedule = (await api.getSchedule())[weekDay>4 ? 0 : weekDay],
                 lessonList = schedule.lessons.map(lesson => { return createLessonString(lesson) })
 
