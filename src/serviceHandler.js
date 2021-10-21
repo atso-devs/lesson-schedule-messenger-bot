@@ -6,12 +6,15 @@ module.exports = async function handle(body) {
         return process.env.vk_confirmation_string
     }
 
-    const command = body.object.message.text.split(' ')[0].trim().replace('/', ''),
+    const message = body.object.message.text.trim()
+
+    const command = message.split(' ')[0].trim().replace('/', ''),
+        args = message.split(/\s+/).splice(1),
         peerId = body.object.message.peer_id,
         date = body.object.message.date;
 
     if (command in commands) {
-        await commands[command].execute(peerId, date)
+        await commands[command].execute(peerId, date, args)
     } else {
         await api.sendMessage(
             'Неизвестная команда. Воспользуйтесь /help для просмотра всех доступных команд',
