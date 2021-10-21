@@ -4,9 +4,9 @@ const api = require('../api'),
 function createLessonString(lesson) {
     const common = `${lesson.begins}-${lesson.ends} - ${lesson.name}.`
     if (lesson.type === 'zoom') {
-        return `${common} ID-конференции: ${lesson.zoomId}. Пароль: ${lesson.zoomPassword}. ${lesson.lecturer}\n`
+        return `${common} ID-конференции: ${lesson.zoomId}. Пароль: ${lesson.zoomPassword}. ${lesson.lecturer}`
     }
-    return `${common} Аудитория: ${lesson.aud}. ${lesson.lecturer}\n`
+    return `${common} Аудитория: ${lesson.aud}. ${lesson.lecturer}`
 
 }
 
@@ -18,9 +18,7 @@ module.exports = {
         const schedule = (await api.getSchedule())[weekDay>4 ? 0 : weekDay],
              lessonList = schedule.lessons.map(lesson => { return createLessonString(lesson) })
 
-        const scheduleMessage = `${schedule.dayName}\n
-            ${lessonList.join('\n')} 
-        `
+        const scheduleMessage = `${schedule.dayName}\n\n${lessonList.join('\n\n')}`
 
         await api.sendMessage(scheduleMessage, peerId)
     }
