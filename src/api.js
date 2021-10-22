@@ -25,9 +25,9 @@ module.exports = {
 
         let scheduleArr = []
         schedule.split('##').slice(1, schedule.length).forEach((day, index) => {
-            let dayArr = day.split(/\n/)
+            let dayArr = day.trim().split(/\n/)
             let lessons = []
-            for (let i=3; i<dayArr.length-2; i++) {
+            for (let i=3; i<dayArr.length; i++) {
                 lessons.push(makeDayScheduleObject(dayArr[i]))
             }
             scheduleArr.push({
