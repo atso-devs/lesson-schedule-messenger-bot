@@ -11,18 +11,14 @@ const app = require('express')(),
 app.use(bodyParser.json())
 
 app.post('/', catchError(async (req, res, next) => {
-    if (!req.body.object.message) {
-        return
-    }
-    if (!req.body.object.message.text.startsWith('/')) {
-        return
-    }
-    const result = await serviceHandler(req.body)
     if (req.body.type === 'confirmation') {
-        res.send(result)
-    } else {
-        res.sendStatus(200)
+        res.send(process.env.vk_confirmation_string)
+        return
     }
+    if (req.body.object.message && req.body.object.message.text.startsWith('/')) {
+        await serviceHandler(req.body)
+    }
+    res.sendStatus(200)
 }))
 
 app.use(async (err, req, res, next) => {

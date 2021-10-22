@@ -2,10 +2,6 @@ const commands = require('./commands/commands');
 const api = require("./api");
 
 module.exports = async function handle(body) {
-    if (body.type === 'confirmation') {
-        return process.env.vk_confirmation_string
-    }
-
     const message = body.object.message.text.trim()
 
     const command = message.split(' ')[0].trim().replace('/', ''),
