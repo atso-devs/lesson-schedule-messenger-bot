@@ -16,6 +16,7 @@ app.post('/', catchError(async (req, res, next) => {
         return
     }
     if (req.body.object.message && req.body.object.message.text.startsWith('/')) {
+        console.log('request', new Date().toTimeString())
         await serviceHandler(req.body)
     }
     res.sendStatus(200)
@@ -23,6 +24,7 @@ app.post('/', catchError(async (req, res, next) => {
 
 app.use(async (err, req, res, next) => {
     if (err instanceof CommandError) {
+        console.log('msg send', new Date().toTimeString())
         await api.sendMessage(err.message, err.peerId)
         res.sendStatus(400)
     } else next(err)

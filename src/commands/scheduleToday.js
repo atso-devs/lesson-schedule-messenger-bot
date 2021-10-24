@@ -15,6 +15,7 @@ module.exports = {
     name: 'lessons',
     description: 'Выводит расписание на сегодня',
     execute: async (peerId, date, args) => {
+        console.log('execute', new Date().toTimeString())
         if (args.length > 1) {
             throw new CommandError('У этой команды должно быть 0 или 1 аргумент', peerId)
         }
