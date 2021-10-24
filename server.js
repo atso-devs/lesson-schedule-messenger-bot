@@ -26,7 +26,7 @@ app.use(async (err, req, res, next) => {
     if (err instanceof CommandError) {
         console.log('msg send', new Date().toTimeString())
         await api.sendMessage(err.message, err.peerId)
-        res.sendStatus(400)
+        res.sendStatus(200)
     } else next(err)
 })
 
