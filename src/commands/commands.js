@@ -1,9 +1,17 @@
-const help = require('./help'),
-    ping = require("./ping"),
-    lessons = require('./scheduleToday');
+const files = [
+    require('./help'),
+    require("./ping"),
+    require('./scheduleToday')
+]
 
-module.exports = {
-    help,
-    ping,
-    lessons,
+const commands = new Map()
+const aliases = new Map()
+
+for (const command of files) {
+    commands.set(command.name, command)
+    for (const alias of command.aliases) {
+        aliases.set(alias, command.name)
+    }
 }
+
+module.exports = { commands, aliases }

@@ -1,21 +1,21 @@
-const commands = require('./commands/commands');
-const api = require("./api");
+const { commands, aliases } = require('./commands/commands');
+const CommandError = require("./CommandError");
 
 module.exports = async function handle(body) {
-    const message = body.object.message.text.trim()
+    const message = body.object.message,
+        messageText = body.object.message.text.trim()
 
-    const command = message.split(' ')[0].trim().replace('/', ''),
-        args = message.split(/\s+/).splice(1),
-        peerId = body.object.message.peer_id,
-        date = body.object.message.date;
+    const command = messageText.split(' ')[0].trim().replace('/', ''),
+        args = messageText.split(/\s+/).splice(1)
 
-    if (command in commands) {
-        await commands[command].execute(peerId, date, args)
-    } else {
-        await api.sendMessage(
+    const cmd = commands.get(command) || commands.get(aliases.get(command))
+
+    if (!cmd) {
+        throw new CommandError(
             'Неизвестная команда. Воспользуйтесь /help для просмотра всех доступных команд',
-            peerId
+            message.peer_id
         )
     }
 
+    await cmd.execute(message.peer_id, message.date, args)
 }
