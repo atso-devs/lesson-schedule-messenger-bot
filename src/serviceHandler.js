@@ -2,17 +2,17 @@ const { commands, aliases } = require('./commands/commands');
 const CommandError = require("./CommandError");
 
 module.exports = async function handle(body) {
-    const message = body.object.message,
+    let message = body.object.message,
         messageText = body.object.message.text.trim().toLowerCase();
 
-    const command = messageText.split(' ')[0].trim().replace('/', ''),
-        args = messageText.split(/\s+/).splice(1);
-
     const symbols = ['.', '?', '!', ',', ':', ';'];
-
+    
     symbols.map((item) => {
         messageText = messageText.replace(`${item}`, '')
     });
+
+    const command = messageText.split(' ')[0].trim().replace('/', ''),
+        args = messageText.split(/\s+/).splice(1);
     
     const cmd = commands.get(command) || commands.get(aliases.get(command))
 
