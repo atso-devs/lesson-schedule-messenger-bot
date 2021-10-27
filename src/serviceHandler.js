@@ -3,7 +3,7 @@ const CommandError = require("./CommandError");
 
 module.exports = async function handle(body) {
     const message = body.object.message,
-        messageText = body.object.message.text.trim()
+        messageText = body.object.message.text.trim().toLowerCase();
 
     const command = messageText.split(' ')[0].trim().replace('/', ''),
         args = messageText.split(/\s+/).splice(1)
