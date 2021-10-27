@@ -13,7 +13,7 @@ function createLessonString(lesson) {
 
 module.exports = {
     name: 'lessons',
-    aliases: ['lsn'],
+    aliases: ['lsn', 'расписание', 'пары'],
     description: 'Выводит расписание на сегодня',
     execute: async (peerId, date, args) => {
         console.log('execute', new Date().toTimeString())
