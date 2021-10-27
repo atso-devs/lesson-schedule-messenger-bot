@@ -1,6 +1,10 @@
 const api = require('../api'),
     timeZone = process.env.time_zone*60*60*1000,
-    CommandError = require('../CommandError')
+    CommandError = require('../CommandError'),
+    { sendMessage } = require("../api");
+
+const schedule = api.getSchedule(),
+    scheduleKeys = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение']
 
 function createLessonString(lesson) {
     const common = `${lesson.begins}-${lesson.ends} - ${lesson.name}.`
@@ -8,43 +12,60 @@ function createLessonString(lesson) {
         return `${common} ID-конференции: ${lesson.zoomId}. Пароль: ${lesson.zoomPassword}. ${lesson.lecturer}`
     }
     return `${common} Аудитория: ${lesson.aud}. ${lesson.lecturer}`
-
 }
+
+async function getDayLesson(dayKey) {
+    return (await schedule).get(dayKey)
+}
+
 
 module.exports = {
     name: 'lessons',
     aliases: ['lsn'],
+    args: [
+        {
+            name: 'weekDay',
+            required: false,
+            caseSensitive: false,
+            variants: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
+                'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресение',
+                'mo', 'tu', 'we', 'th', 'fr', 'sa', 'su',
+                'пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+        }
+    ],
     description: 'Выводит расписание на сегодня',
-    execute: async (peerId, date, args) => {
-        console.log('execute', new Date().toTimeString())
-        if (args.length > 1) {
+    execute: async (peerId, date, cmdArgs) => {
+        const { args } = require("./scheduleToday");
+
+        if (cmdArgs.length > args.length) {
             throw new CommandError('У этой команды должно быть 0 или 1 аргумент', peerId)
         }
 
-        if (args.length === 0) {
-            const weekDay = new Date(date*1000+timeZone).getDay()-1
-            const schedule = (await api.getSchedule())[weekDay>4 ? 0 : weekDay<0 ? 0 : weekDay],
-                lessonList = schedule.lessons.map(lesson => { return createLessonString(lesson) })
+        if (!cmdArgs.length) {
+            let weekDay = new Date(date*1000+timeZone).getDay()-1
+            weekDay = weekDay>4 ? 0 : weekDay<0 ? 0 : weekDay
 
-            const scheduleMessage = `${schedule.dayName}\n\n${lessonList.join('\n\n')}`
+            const daySchedule = (await schedule)
+                .get(scheduleKeys[weekDay]),
+                lessonList = daySchedule.map(lesson => { return createLessonString(lesson) }),
+                scheduleMessage = `${scheduleKeys[weekDay]}\n\n${lessonList.join('\n\n')}`
 
-            await api.sendMessage(scheduleMessage, peerId)
+            await sendMessage(scheduleMessage, peerId)
             return
         }
 
-        const week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
-        const indexOfDay = week.indexOf(args[0].toLowerCase())
+        const dayArg = args[0],
+            day = dayArg.caseSensitive ? cmdArgs[0] : cmdArgs[0].toLowerCase(),
+            dayKey = scheduleKeys[dayArg.variants.indexOf(day)%7],
+            daySchedule = (await api.getSchedule()).get(dayKey)
 
-        if (indexOfDay === -1) {
-            throw new CommandError(`Неизвестный день недели или этот день выходной: '${args[0].trim()}'`, peerId)
+        if (!daySchedule) {
+            throw new CommandError(`Неизвестный день недели или этот день выходной: '${cmdArgs[0].trim()}'`, peerId)
         }
-        
-        const schedule = (await api.getSchedule())[indexOfDay],
-            lessonList = schedule.lessons.map(lesson => { return createLessonString(lesson) })
 
-        const scheduleMessage = `${schedule.dayName}\n\n${lessonList.join('\n\n')}`
+        const lessonList = daySchedule.map(lesson => { return createLessonString(lesson) }),
+            scheduleMessage = `${dayKey}\n\n${lessonList.join('\n\n')}`
 
-        await api.sendMessage(scheduleMessage, peerId)
-
+        await sendMessage(scheduleMessage, peerId)
     }
 }

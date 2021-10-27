@@ -24,6 +24,7 @@ module.exports = {
         const schedule = (await axios.get('https://raw.githubusercontent.com/atso-devs/.github/main/schedule.md')).data
 
         let scheduleArr = []
+        let scheduleMap = new Map()
         schedule.split('##').slice(1, schedule.length).forEach((day, index) => {
             let dayArr = day.trim().split(/\n/)
             let lessons = []
@@ -35,7 +36,8 @@ module.exports = {
                 dayName: dayArr[0].trim(),
                 lessons
             })
+            scheduleMap.set(dayArr[0].trim(), lessons)
         })
-        return scheduleArr
+        return scheduleMap
     }
 }
