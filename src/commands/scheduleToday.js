@@ -21,7 +21,7 @@ async function getDayLesson(dayKey) {
 
 module.exports = {
     name: 'lessons',
-    aliases: ['lsn'],
+    aliases: ['lsn', 'расписание', 'пары'],
     args: [
         {
             name: 'weekDay',

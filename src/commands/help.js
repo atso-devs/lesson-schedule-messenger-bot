@@ -12,7 +12,7 @@ function createHelpMessage() {
 
 module.exports = {
     name: 'help',
-    aliases: ['h'],
+    aliases: ['h', 'помощь'],
     description: 'Выводит все доступные команды',
     execute: async (peerId) => {
         await api.sendMessage(createHelpMessage(), peerId)
