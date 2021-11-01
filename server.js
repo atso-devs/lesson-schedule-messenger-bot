@@ -7,6 +7,7 @@ const app = require('express')(),
     api = require('./src/api'),
     CommandError = require("./src/CommandError")
 ;
+const cron = require("./src/cron");
 
 app.use(bodyParser.json())
 
@@ -32,4 +33,5 @@ app.use(async (err, req, res, next) => {
 
 app.listen(PORT, async () => {
     console.log(`Server is available on http://localhost:${PORT}`)
+    await cron.start()
 })
