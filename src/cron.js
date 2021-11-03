@@ -17,16 +17,15 @@ async function makeLessonQueue() {
 
     weekDay = weekDay>4 ? 0 : weekDay
     const schedule = (await api.getSchedule()).get(scheduleKeys[weekDay])
-    schedule.map( (lesson) => {
+    schedule.map( lesson => {
         const [hours, minutes] = lesson.begins.split(':')
 
         const now = new Date(Date.now())
-        const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes-10, 0, 0)
+        const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), +hours, minutes-10, 0, 0)
         setTimeout(async () => {
             await api.sendMessage(createLessonString(lesson), 231237066)
-            console.log(now)
-            console.log(date)
-        }, date-now)
+
+        }, Math.abs(date-now))
     })
 }
 
@@ -36,10 +35,10 @@ module.exports = {
         await makeLessonQueue()
             const now = new Date()
 
-        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)
-        let wait = start - Date.now()
-        console.log('Time now: ' + new Date().toString())
-        console.log('Time left ' + new Date(wait).toString())
+        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 0, 0, 0)
+        let wait = start.getTime() - now.getTime()
+        console.log('Time now: ' + new Date(Date.now()).toString())
+        console.log('Start in: ' + new Date(Date.now()+wait).toString())
         setTimeout( () => {
             console.log('Cron started: ' + new Date().toString())
             setInterval(async () => {
