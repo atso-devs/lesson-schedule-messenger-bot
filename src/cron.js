@@ -1,5 +1,6 @@
 const api = require('./api'),
     timeZone = process.env.time_zone*60*60*1000
+const axios = require("axios");
 
 const scheduleKeys = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение']
 
@@ -14,7 +15,6 @@ function createLessonString(lesson) {
 
 async function makeLessonQueue() {
     let weekDay = new Date(Date.now()+timeZone).getDay()-1
-    console.log(weekDay)
 
     weekDay = weekDay>4 ? 0 : weekDay<0 ? 0 : weekDay
     const schedule = (await api.getSchedule()).get(scheduleKeys[weekDay])
@@ -33,8 +33,16 @@ async function makeLessonQueue() {
 }
 
 
+function keepAlive() {
+    setInterval(async () => {
+        await axios.post(process.env.SERVER_URI, {object: {}}, {})
+        console.log('Keep alive')
+    }, 15*60*1000)
+}
+
 module.exports = {
     start: async () => {
+        keepAlive()
         await makeLessonQueue()
         const now = new Date(),
             start = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 0, 0, 0),
