@@ -43,7 +43,6 @@ function keepAlive() {
 module.exports = {
     start: async () => {
         keepAlive()
-        await makeLessonQueue()
         const now = new Date(),
             start = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 0, 0, 0),
             wait = start.getTime() - now.getTime()
