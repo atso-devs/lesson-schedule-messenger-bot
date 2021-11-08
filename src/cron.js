@@ -8,7 +8,7 @@ const scheduleKeys = ['Понедельник', 'Вторник', 'Среда', 
 function createLessonString(lesson) {
     const common = `@all, пара через 10 минут\n\n${lesson.begins}-${lesson.ends} - ${lesson.name}.`
     if (lesson.type === 'zoom') {
-        return `${common} ID-конференции: ${lesson.zoomId}. Пароль: ${lesson.zoomPassword}. ${lesson.lecturer}`
+        return `${common} ${lesson.lecturer} - https://us04web.zoom.us/j/${lesson.zoomId}. Пароль: ${lesson.zoomPassword}`
     }
     return `${common} Аудитория: ${lesson.aud}. ${lesson.lecturer}`
 }
