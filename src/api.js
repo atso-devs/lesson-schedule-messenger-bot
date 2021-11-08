@@ -12,6 +12,7 @@ module.exports = {
             message: message,
             v: apiVersion,
         }
+        console.log(params.peer_id)
         return await axios.post(baseUrl+'messages.send', {}, { params: params })
     },
     getSchedule: async () => {

@@ -27,6 +27,7 @@ async function makeLessonQueue() {
         console.log('notification will be in: ', date.toString())
         setTimeout(async () => {
             await api.sendMessage(createLessonString(lesson), 231237066)
+            await api.sendMessage(createLessonString(lesson), 2000000354)
 
         }, Math.abs(date-now))
     })
