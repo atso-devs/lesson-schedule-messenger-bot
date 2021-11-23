@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 
 app.post('/', catchError(async (req, res, next) => {
     if (req.body.type === 'confirmation') {
-        res.send(process.env.vk_confirmation_string)
+        res.send(process.env.CONFIRMATION_STRING)
         return
     }
     if (req.body.object.message && req.body.object.message.text.startsWith('/')) {

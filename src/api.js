@@ -1,7 +1,7 @@
 const axios = require('axios'),
     baseUrl = 'https://api.vk.com/method/',
     apiVersion = '5.131',
-    accessToken = process.env.access_token
+    accessToken = process.env.ACCESS_TOKEN
 
 module.exports = {
     sendMessage: async (message, peerId) => {
