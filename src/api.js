@@ -17,17 +17,14 @@ module.exports = {
         return await axios.post(baseUrl+'messages.send', {}, { params: params })
     },
     sendMessageTelegram: async (message, chatId) => {
-        await axios({
-            method: 'POST',
-            url: `${telegramBaseUrl}/sendMessage`,
-            data: {
+        console.log(chatId)
+        console.log(message)
+        await axios.post(`${telegramBaseUrl}/sendMessage`,
+            {
                 chat_id: chatId,
                 message
-            },
-            headers: {
-                'Content-Type': 'application/json'
             }
-        })
+        )
     },
     getSchedule: async () => {
         function makeDayScheduleObject(lesson) {
