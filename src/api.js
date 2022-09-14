@@ -21,7 +21,7 @@ module.exports = {
             method: 'POST',
             url: `${telegramBaseUrl}/sendMessage`,
             data: {
-                char_id: chatId,
+                chat_id: chatId,
                 message
             },
             headers: {
