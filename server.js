@@ -24,7 +24,8 @@ app.post('/', catchError(async (req, res, next) => {
 }))
 
 app.post('/telegram', catchError(async (req, res, next) => {
-    console.log('telegram bot')
+    console.log(req)
+    res.sendStatus(200)
 }))
 
 app.use(async (err, req, res, next) => {
