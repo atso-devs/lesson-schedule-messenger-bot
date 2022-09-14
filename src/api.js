@@ -15,6 +15,9 @@ module.exports = {
         console.log(params.peer_id)
         return await axios.post(baseUrl+'messages.send', {}, { params: params })
     },
+    sendMessageTelegram: async (message, peerId) => {
+        console.log(peerId, message)
+    },
     getSchedule: async () => {
         function makeDayScheduleObject(lesson) {
             let [ id, name, begins, ends, type,

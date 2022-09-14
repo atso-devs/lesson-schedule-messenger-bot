@@ -24,7 +24,8 @@ app.post('/', catchError(async (req, res, next) => {
 }))
 
 app.post('/telegram', catchError(async (req, res, next) => {
-    console.log(req)
+    console.log(req.body)
+    await api.sendMessageTelegram(req.body.text, req.body.from)
     res.sendStatus(200)
 }))
 
