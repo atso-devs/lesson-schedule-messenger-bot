@@ -23,6 +23,10 @@ app.post('/', catchError(async (req, res, next) => {
     res.sendStatus(200)
 }))
 
+app.post('/telegram', catchError(async (req, res, next) => {
+    console.log('telegram bot')
+}))
+
 app.use(async (err, req, res, next) => {
     if (err instanceof CommandError) {
         console.log('errMsg send', new Date().toTimeString())
