@@ -17,9 +17,15 @@ module.exports = {
         return await axios.post(baseUrl+'messages.send', {}, { params: params })
     },
     sendMessageTelegram: async (message, chatId) => {
-        await axios.post(`${telegramBaseUrl}/sendMessage`, {
-            char_id: chatId,
-            message
+        await axios.post({
+            url: `${telegramBaseUrl}/sendMessage`,
+            data: {
+                char_id: chatId,
+                message
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
     },
     getSchedule: async () => {
