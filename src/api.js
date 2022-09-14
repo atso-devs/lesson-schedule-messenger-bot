@@ -1,7 +1,8 @@
 const axios = require('axios'),
     baseUrl = 'https://api.vk.com/method/',
     apiVersion = '5.131',
-    accessToken = process.env.ACCESS_TOKEN
+    accessToken = process.env.ACCESS_TOKEN,
+    telegramBaseUrl = 'https://api.telegram.org/bot5624618701:AAEmTiZGctRFwVP2DQAQl0t9RYyMq77ycUM'
 
 module.exports = {
     sendMessage: async (message, peerId) => {
@@ -15,8 +16,11 @@ module.exports = {
         console.log(params.peer_id)
         return await axios.post(baseUrl+'messages.send', {}, { params: params })
     },
-    sendMessageTelegram: async (message, peerId) => {
-        console.log(peerId, message)
+    sendMessageTelegram: async (message, chatId) => {
+        await axios.post(`${telegramBaseUrl}/sendMessage`, {
+            char_id: chatId,
+            message
+        })
     },
     getSchedule: async () => {
         function makeDayScheduleObject(lesson) {
