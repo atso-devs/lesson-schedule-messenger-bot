@@ -19,7 +19,7 @@ module.exports = {
     sendMessageTelegram: async (message, chatId) => {
         console.log(chatId)
         console.log(message)
-        await axios.post(`${telegramBaseUrl}/sendMessage`,
+        await axios.post(`${telegramBaseUrl}/sendMessage`, {},
             {
                 chat_id: chatId,
                 message
