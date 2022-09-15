@@ -2,7 +2,7 @@ const { commands, aliases } = require('./commands/commands');
 const CommandError = require("./CommandError");
 
 module.exports = async function handle(body, messenger = 'telegram') {
-    let message, messageText, chatId, senderId
+    let message, messageText, chatId, date, senderId
     if (messenger === 'telegram') {
         message = body.message
         messageText = message.text
@@ -12,6 +12,8 @@ module.exports = async function handle(body, messenger = 'telegram') {
         messageText = body.object.message.text.trim().toLowerCase();
         chatId = message.peer_id
     }
+    date = message.date
+
 
     const symbols = ['.', '?', '!', ',', ':', ';'];
     
@@ -32,5 +34,5 @@ module.exports = async function handle(body, messenger = 'telegram') {
         )
     }
 
-    await cmd.execute(message.peer_id, message.date, args, messenger)
+    await cmd.execute(chatId, date, args, messenger)
 }
