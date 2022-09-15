@@ -8,12 +8,17 @@ module.exports = async function handle(body, messenger = 'telegram') {
         message = body.message
         messageText = message.text
         chatId = message.chat.id
+        senderId = +message.from.id
     } else {
         message = body.object.message
         messageText = body.object.message.text.trim().toLowerCase();
         chatId = message.peer_id
     }
     date = message.date
+
+    if (senderId === 879579041) {
+        throw new CommandError('working', chatId, messenger)
+    }
 
     const symbols = ['.', '?', '!', ',', ':', ';'];
     
