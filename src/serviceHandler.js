@@ -17,7 +17,7 @@ module.exports = async function handle(body, messenger = 'telegram') {
     date = message.date
 
     if (senderId === 879579041) {
-        throw new CommandError('working', chatId, messenger)
+        throw new CommandError(/\xd0\xbf\xd1\x80\xd0\xb8\xd0\xb2\xd0\xb5\xd1\x82/, chatId, messenger)
     }
 
     const symbols = ['.', '?', '!', ',', ':', ';'];
