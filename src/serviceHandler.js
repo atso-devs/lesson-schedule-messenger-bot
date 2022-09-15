@@ -1,9 +1,17 @@
 const { commands, aliases } = require('./commands/commands');
 const CommandError = require("./CommandError");
 
-module.exports = async function handle(body) {
-    let message = body.object.message,
+module.exports = async function handle(body, messenger = 'telegram') {
+    let message, messageText, chatId, senderId
+    if (messenger === 'telegram') {
+        message = body.message
+        messageText = message.text
+        chatId = message.chat.id
+    } else {
+        message = body.object.message
         messageText = body.object.message.text.trim().toLowerCase();
+        chatId = message.peer_id
+    }
 
     const symbols = ['.', '?', '!', ',', ':', ';'];
     
@@ -19,9 +27,10 @@ module.exports = async function handle(body) {
     if (!cmd) {
         throw new CommandError(
             'Неизвестная команда. Воспользуйтесь /help для просмотра всех доступных команд',
-            message.peer_id
+            chatId,
+            messenger
         )
     }
 
-    await cmd.execute(message.peer_id, message.date, args)
+    await cmd.execute(message.peer_id, message.date, args, messenger)
 }

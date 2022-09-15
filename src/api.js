@@ -5,23 +5,24 @@ const axios = require('axios'),
     telegramBaseUrl = 'https://api.telegram.org/bot5624618701:AAEmTiZGctRFwVP2DQAQl0t9RYyMq77ycUM'
 
 module.exports = {
-    sendMessage: async (message, peerId) => {
-        const params = {
-            peer_id: peerId,
-            access_token: accessToken,
-            random_id: Math.floor(Math.random() * 20000000000),
-            message: message,
-            v: apiVersion,
+    sendMessage: async (message, chatId, messenger) => {
+        if (messenger === 'telegram') {
+            await axios.post(`${telegramBaseUrl}/sendMessage`, {
+                chat_id: chatId,
+                text: message
+            })
+        } else {
+            const params = {
+                peer_id: chatId,
+                access_token: accessToken,
+                random_id: Math.floor(Math.random() * 20000000000),
+                message: message,
+                v: apiVersion,
+            }
+            await axios.post(baseUrl+'messages.send', {}, { params: params })
         }
-        console.log(params.peer_id)
-        return await axios.post(baseUrl+'messages.send', {}, { params: params })
     },
-    sendMessageTelegram: async (message, chatId) => {
-         await axios.post(`${telegramBaseUrl}/sendMessage`, {
-             chat_id: chatId,
-             text: message
-         })
-    },
+
     getSchedule: async () => {
         function makeDayScheduleObject(lesson) {
             let [ id, name, begins, ends, type,

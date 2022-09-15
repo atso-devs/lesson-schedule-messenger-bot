@@ -18,21 +18,21 @@ app.post('/', catchError(async (req, res, next) => {
     }
     if (req.body.object.message && req.body.object.message.text.startsWith('/')) {
         console.log('request', new Date().toTimeString())
-        await serviceHandler(req.body)
+        await serviceHandler(req.body, 'vk')
     }
     res.sendStatus(200)
 }))
 
 app.post('/telegram', catchError(async (req, res, next) => {
     console.log(req.body)
-    await api.sendMessageTelegram(req.body.message.text, req.body.message.from.id)
+    await serviceHandler(req.body)
     res.sendStatus(200)
 }))
 
 app.use(async (err, req, res, next) => {
     if (err instanceof CommandError) {
         console.log('errMsg send', new Date().toTimeString())
-        await api.sendMessage(err.message, err.peerId)
+        await api.sendMessage(err.message, err.peerId, err.messenger)
         res.sendStatus(200)
     } else next(err)
 })

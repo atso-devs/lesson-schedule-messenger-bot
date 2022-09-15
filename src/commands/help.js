@@ -14,7 +14,7 @@ module.exports = {
     name: 'help',
     aliases: ['h', 'помощь'],
     description: 'Выводит все доступные команды',
-    execute: async (peerId) => {
-        await api.sendMessage(createHelpMessage(), peerId)
+    execute: async (peerId, date, args, messenger) => {
+        await api.sendMessage(createHelpMessage(), peerId, messenger)
     }
 }

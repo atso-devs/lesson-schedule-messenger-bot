@@ -36,11 +36,11 @@ module.exports = {
         }
     ],
     description: 'Выводит расписание на сегодня',
-    execute: async (peerId, date, cmdArgs) => {
+    execute: async (peerId, date, cmdArgs, messenger) => {
         const { args } = require("./scheduleToday");
 
         if (cmdArgs.length > args.length) {
-            throw new CommandError('У этой команды должно быть 0 или 1 аргумент', peerId)
+            throw new CommandError('У этой команды должно быть 0 или 1 аргумент', peerId, messenger)
         }
 
         if (!cmdArgs.length) {
@@ -62,12 +62,12 @@ module.exports = {
             daySchedule = (await api.getSchedule()).get(dayKey)
 
         if (!daySchedule) {
-            throw new CommandError(`Неизвестный день недели или этот день выходной: '${cmdArgs[0].trim()}'`, peerId)
+            throw new CommandError(`Неизвестный день недели или этот день выходной: '${cmdArgs[0].trim()}'`, peerId, messenger)
         }
 
         const lessonList = daySchedule.map(lesson => { return createLessonString(lesson) }),
             scheduleMessage = `${dayKey}\n\n${lessonList.join('\n\n')}`
 
-        await sendMessage(scheduleMessage, peerId)
+        await sendMessage(scheduleMessage, peerId, messenger)
     }
 }
