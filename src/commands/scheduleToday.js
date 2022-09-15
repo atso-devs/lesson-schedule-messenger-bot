@@ -52,7 +52,7 @@ module.exports = {
                 lessonList = daySchedule.map(lesson => { return createLessonString(lesson) }),
                 scheduleMessage = `${scheduleKeys[weekDay]}\n\n${lessonList.join('\n\n')}`
 
-            await sendMessage(scheduleMessage, peerId)
+            await sendMessage(scheduleMessage, peerId, messenger)
             return
         }
 

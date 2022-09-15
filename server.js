@@ -39,5 +39,5 @@ app.use(async (err, req, res, next) => {
 
 app.listen(PORT, async () => {
     console.log(`Server is available on http://localhost:${PORT}`)
-    await cron.start()
+    // await cron.start()
 })
