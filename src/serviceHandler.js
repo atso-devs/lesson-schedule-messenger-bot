@@ -4,7 +4,7 @@ const CommandError = require("./CommandError");
 module.exports = async function handle(body, messenger = 'telegram') {
     let message, messageText, chatId, date, senderId
     if (messenger === 'telegram') {
-        if (Object.keys(body.edited_message).length) return
+        if (body.hasOwnProperty('edited_message')) return
         message = body.message
         messageText = message.text
         chatId = message.chat.id
@@ -14,7 +14,6 @@ module.exports = async function handle(body, messenger = 'telegram') {
         chatId = message.peer_id
     }
     date = message.date
-
 
     const symbols = ['.', '?', '!', ',', ':', ';'];
     
