@@ -4,6 +4,7 @@ const CommandError = require("./CommandError");
 module.exports = async function handle(body, messenger = 'telegram') {
     let message, messageText, chatId, date, senderId
     if (messenger === 'telegram') {
+        if (Object.keys(body.edited_message).length) return
         message = body.message
         messageText = message.text
         chatId = message.chat.id
