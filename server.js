@@ -31,7 +31,7 @@ app.post('/telegram', catchError(async (req, res, next) => {
 }))
 
 app.get('/frontend-playground', catchError(async (req, res, next) => {
-    res.sendFile(path.resolve(__dirname, './src/fronted-playground/index.html'))
+    res.sendFile(path.resolve(__dirname, '/src/frontend-playground/index.html'))
 }))
 
 app.use(async (err, req, res, next) => {
