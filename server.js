@@ -5,7 +5,8 @@ const app = require('express')(),
     serviceHandler = require('./src/serviceHandler'),
     catchError = require('./src/catchError'),
     api = require('./src/api'),
-    CommandError = require("./src/CommandError")
+    CommandError = require("./src/CommandError"),
+    path = require('path')
 ;
 const cron = require("./src/cron");
 
@@ -27,6 +28,10 @@ app.post('/telegram', catchError(async (req, res, next) => {
     console.log(req.body)
     await serviceHandler(req.body)
     res.sendStatus(200)
+}))
+
+app.get('/frontend-playground', catchError(async (req, res, next) => {
+    res.sendFile(path.resolve(__dirname, './src/fronted-playground/index.html'))
 }))
 
 app.use(async (err, req, res, next) => {
